@@ -217,8 +217,8 @@ const data = [
   },
   {
     topic: "Instalação (Windows / Linux)",
-    js: "Nativo no navegador. Para Node.js:<br><b>Win:</b> baixar em <code>nodejs.org</code><br><b>Linux:</b> <code>sudo apt install nodejs npm</code>",
-    php: "<b>Win:</b> XAMPP ou baixar em <code>windows.php.net</code><br><b>Linux:</b> <code>sudo apt install php-cli</code>",
+    js: "Nativo no navegador. Para Node.js, gerencie versões com <b>nvm</b>:<br><b>Linux/macOS:</b> <code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash</code><br><b>Instalar a última versão:</b> <code>nvm install node</code> + <code>nvm use node</code><br><b>Win:</b> <code>nvm-windows</code> ou baixar em <code>nodejs.org</code>",
+    php: `<b>Linux:</b> <code>sudo apt update</code> + <code>sudo apt install php php-cli php-common -y</code><br><b>Win:</b> <a href="https://www.apachefriends.org/" target="_blank">XAMPP</a> (Apache + MariaDB + PHP + Perl), <a href="https://laragon.org/" target="_blank">Laragon</a> (leve e rápido) ou <a href="https://www.wampserver.com/" target="_blank">WampServer</a><br>Baixar PHP (última versão): <a href="https://windows.php.net/download/" target="_blank">windows.php.net/download</a>`,
     go: "<b>Win:</b> MSI em <code>go.dev/dl</code><br><b>Linux:</b> <code>sudo apt install golang</code> ou tarball oficial",
     py: "<b>Win:</b> instalador em <code>python.org</code><br><b>Linux:</b> <code>sudo apt install python3</code>",
     rust: "<b>Win/Linux:</b> <code>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code> (rustup)",
@@ -229,7 +229,7 @@ const data = [
   },
   {
     topic: "Comandos: criar / rodar programas",
-    js: `Criar: <code>node app.js</code><br>Rodar: <code>node app.js</code><br>No browser: <code>&lt;script src="app.js"&gt;</code>`,
+    js: `Criar projeto: <code>npm init -y</code> (gera o <code>package.json</code>)<br>ES6: adicione <code>"type": "module"</code> no <code>package.json</code> para usar <code>import</code>/<code>export</code><br>Criar: <code>app.js</code> · Rodar: <code>node app.js</code><br>No browser: <code>&lt;script src="app.js"&gt;</code>`,
     php: `Criar: <code>index.php</code><br>Rodar CLI: <code>php index.php</code><br>Servidor web: <code>php -S localhost:8000</code>`,
     go: `Criar: <code>go mod init app</code><br>Rodar: <code>go run main.go</code><br>Build: <code>go build -o app</code>`,
     py: `Criar: <code>app.py</code><br>Rodar: <code>python3 app.py</code>`,
@@ -241,108 +241,349 @@ const data = [
   },
   {
     topic: "Tipos de dados",
-    js: `<code>number, string, boolean, null, undefined, symbol, bigint, object</code> (tipagem dinâmica e fraca)`,
-    php: `<code>int, float, string, bool, array, object, null, resource</code> (dinâmica com tipagem opcional)`,
-    go: `<code>int, float64, string, bool, byte, rune, []T, map[K]V, struct</code> (estática e forte)`,
-    py: `<code>int, float, str, bool, list, tuple, dict, set, None</code> (dinâmica e forte)`,
-    rust: `<code>i32, u64, f64, bool, char, &str, String, Vec&lt;T&gt;, Option&lt;T&gt;, Result&lt;T,E&gt;</code>`,
-    c: `<code>int, char, float, double, long, short, struct, union, enum, pointer</code>`,
-    cpp: "Mesmos do C + <code>bool, auto, string, vector, map, class</code>",
-    cs: `<code>int, double, bool, char, string, decimal, object, dynamic, struct, class</code>`,
-    java: `<code>int, double, boolean, char, String, long, float, byte, short</code> (primitivos + objetos)"`
+    js: `<code>number, bigint, string, boolean, null, undefined, symbol, object</code> (tipagem dinâmica e fraca)
+<pre>// --- Number (inteiro e decimal) ---
+let idade = 30;           // number (inteiro)
+let preco = 9.99;         // number (decimal)
+// --- BigInt (inteiros gigantes) ---
+let grande = 10n;         // bigint
+// --- String ---
+let nome = "Ana";         // string
+// --- Boolean ---
+let ativo = true;         // boolean
+// --- Null e Undefined ---
+let nada = null;          // null
+let x;                    // undefined
+// --- Symbol ---
+let id = Symbol("id");    // symbol
+// --- Object, Array, Function ---
+let obj = { chave: "v" }; // object
+let arr = [1, 2, 3];      // object (array)
+let fn = () => {};        // function</pre>`,
+    php: `<code>int, float, string, bool, array, object, null, resource</code> (dinâmica com tipagem opcional)
+<pre>// --- Inteiro e Float ---
+$idade = 30;               // int
+$preco = 9.99;             // float
+// --- String ---
+$nome = "Ana";             // string
+// --- Boolean ---
+$ativo = true;             // bool
+// --- Array (lista e associativo) ---
+$arr = [1, 2, 3];          // array
+$assoc = ["a" => 1];       // array associativo
+// --- Object ---
+$obj = new stdClass();     // object
+// --- Null ---
+$nada = null;              // null</pre>`,
+    go: `<code>int, int8..int64, uint, uint8..uint64, float32/64, string, bool, byte, rune, [N]T, []T, map[K]V, struct</code> (estática e forte)
+<pre>// --- Inteiros ---
+var idade int = 30         // int
+var b byte = 255           // byte (uint8)
+var r rune = 'A'           // rune (int32)
+var u uint = 25            // sem sinal
+// --- Ponto flutuante ---
+preco := 9.99              // float64
+var f float32 = 1.5        // float32
+// --- String ---
+var nome string = "Ana"    // string
+// --- Boolean ---
+ativo := true              // bool
+// --- Compostos ---
+arr := [3]int{1, 2, 3}     // array fixo [N]T
+slice := []int{1, 2, 3}    // slice []T
+m := map[string]int{"a":1} // map[K]V
+type P struct { Nome string } // struct</pre>`,
+    py: `<code>int, float, complex, str, bool, list, tuple, dict, set, None</code> (dinâmica e forte)
+<pre># --- Inteiro e Float ---
+idade = 30                # int
+preco = 9.99              # float
+complexo = 1 + 2j         # complex
+# --- String ---
+nome = "Ana"              # str
+# --- Boolean ---
+ativo = True              # bool
+# --- Coleções ---
+arr = [1, 2, 3]           # list (mutável)
+tup = (1, 2)              # tuple (imutável)
+d = {"a": 1}              # dict
+s = {1, 2, 3}             # set
+# --- None ---
+nada = None               # None</pre>`,
+    rust: `<code>i8..i64, u8..u64, f32/f64, bool, char, &str, String, [T; N], (T1,T2), struct, enum</code>
+<pre>let idade: i32 = 30;          // inteiro com sinal
+let bits: u8 = 255;           // inteiro sem sinal
+let preco: f64 = 9.99;        // ponto flutuante
+let ativo: bool = true;       // bool
+let letra: char = 'A';        // char (Unicode)
+let s: &amp;str = "Ana";           // &amp;str (imutável)
+let nome = String::from("Ana");// String (mutável)
+let arr: [i32; 3] = [1,2,3];  // array fixo [T; N]
+let tup = (1, "Ana");         // tupla (T1, T2)
+struct Pessoa { nome: String } // struct
+enum Cor { Vermelho, Azul }   // enum</pre>`,
+    c: `<code>int, short, long, unsigned, float, double, char, pointer, struct, union, enum</code>
+<pre>// --- Inteiros ---
+int idade = 30;             // int
+short s = 1;                // short
+long l = 100L;              // long
+unsigned int u = 25;        // sem sinal
+// --- Ponto flutuante ---
+float preco = 9.99f;        // float
+double pi = 3.14159;        // double
+// --- Caractere / String ---
+char letra = 'A';           // char
+char nome[] = "Ana";        // string (array de char)
+// --- Ponteiro ---
+int *ptr = &amp;idade;          // ponteiro
+// --- Estruturas ---
+struct Pessoa { int id; };  // struct
+union Num { int i; float f; }; // union
+enum Cor { VERMELHO, AZUL };   // enum</pre>`,
+    cpp: `<code>int, unsigned int, double, float, bool, char, std::tuple, std::array, const char*, std::string</code>
+<pre>int x = -42;                // inteiro com sinal
+unsigned int idade = 25;    // inteiro sem sinal
+double pi = 3.1415;         // double (padrão)
+float f = 1.5f;             // float
+bool ativo = true;          // bool
+char letra = 'Z';           // char
+std::tuple&lt;int,double,char&gt; t{500, 6.4, 'A'}; // tupla (&lt;tuple&gt;)
+int lista[3] = {1, 2, 3};   // array C fixo
+std::array&lt;int,3&gt; a = {1,2,3};    // array moderno (&lt;array&gt;)
+const char* texto = "Olá!";       // string estática (C)
+std::string nome = "Ana";         // string dinâmica (&lt;string&gt;)</pre>`,
+    cs: `<code>int, long, double, float, decimal, bool, char, string, object, dynamic, struct, class</code>
+<pre>// --- Inteiros ---
+int idade = 30;            // int
+long big = 100L;           // long
+// --- Ponto flutuante ---
+double preco = 9.99;       // double
+float f = 1.5f;            // float
+decimal valor = 10.5m;     // decimal
+// --- Boolean e Char ---
+bool ativo = true;         // bool
+char letra = 'A';          // char
+// --- String ---
+string nome = "Ana";       // string
+// --- Outros ---
+object o = 42;             // object
+dynamic d = 10;            // dynamic
+int[] arr = {1, 2, 3};     // array
+var x = 10;                // var (inferido)</pre>`,
+    java: `<code>byte, short, int, long, float, double, boolean, char, String, array</code> (primitivos + objetos)
+<pre>// --- Inteiros ---
+int idade = 30;            // int
+long big = 100L;           // long
+byte b = 127;              // byte
+short s = 1;               // short
+// --- Ponto flutuante ---
+double preco = 9.99;       // double
+float f = 1.5f;            // float
+// --- Boolean e Char ---
+boolean ativo = true;      // boolean
+char letra = 'A';          // char
+// --- String ---
+String nome = "Ana";       // String (objeto)
+// --- Array ---
+int[] arr = {1, 2, 3};     // array</pre>`
   },
   {
     topic: "Função",
     js: `<pre>function soma(a, b) {
   return a + b;
 }
-const mult = (a,b) =&gt; a*b;</pre>`,
+const mult = (a,b) =&gt; a*b;
+
+// Chamando e vendo o retorno:
+console.log(soma(2, 3)); // 5
+console.log(mult(2, 3)); // 6</pre>
+No navegador: pressione <b>F12</b> → aba <b>Console</b>. No Node: rode <code>node app.js</code>.`,
     php: `<pre>function soma($a, $b) {
   return $a + $b;
-}</pre>`,
-    go: `<pre>func soma(a, b int) int {
+}
+// Chamando e vendo o retorno:
+echo soma(2, 3); // 5</pre>
+Salve como <code>somar.php</code> e rode <code>php somar.php</code>.`,
+    go: `<pre>package main
+import "fmt"
+
+func soma(a, b int) int {
   return a + b
-}</pre>`,
+}
+
+func main() {
+  fmt.Println(soma(2, 3)) // 5
+}</pre>
+Rode <code>go run main.go</code>.`,
     py: `<pre>def soma(a, b):
-    return a + b</pre>`,
+    return a + b
+
+# Chamando e vendo o retorno:
+print(soma(2, 3))  # 5</pre>
+Rode <code>python3 app.py</code>.`,
     rust: `<pre>fn soma(a: i32, b: i32) -&gt; i32 {
     a + b
-}</pre>`,
-    c: `<pre>int soma(int a, int b) {
-  return a + b;
-}</pre>`,
-    cpp: `<pre>int soma(int a, int b) {
+}
+
+fn main() {
+    println!("{}", soma(2, 3)); // 5
+}</pre>
+Rode <code>cargo run</code>.`,
+    c: `<pre>#include &lt;stdio.h&gt;
+int soma(int a, int b) {
   return a + b;
 }
-// ou sobrecarga / lambda</pre>`,
+int main() {
+  printf("%d\n", soma(2, 3)); // 5
+  return 0;
+}</pre>
+Compile com <code>gcc app.c -o app</code> e rode <code>./app</code>.`,
+    cpp: `<pre>#include &lt;iostream&gt;
+int soma(int a, int b) {
+  return a + b;
+}
+int main() {
+  std::cout &lt;&lt; soma(2, 3); // 5
+  return 0;
+}</pre>
+Compile com <code>g++ app.cpp -o app</code> e rode <code>./app</code>.`,
     cs: `<pre>int Soma(int a, int b) {
   return a + b;
-}</pre>`,
-    java: `<pre>public static int soma(int a, int b) {
-  return a + b;
-}</pre>`
+}
+Console.WriteLine(Soma(2, 3)); // 5</pre>
+Rode <code>dotnet run</code>.`,
+    java: `<pre>public class App {
+  public static int soma(int a, int b) {
+    return a + b;
+  }
+  public static void main(String[] args) {
+    System.out.println(soma(2, 3)); // 5
+  }
+}</pre>
+Compile com <code>javac App.java</code> e rode <code>java App</code>.`
   },
   {
     topic: "Entrada de dados no terminal (prompt)",
-    js: `Node: <pre>const readline = require('readline');
-const rl = readline.createInterface({input:process.stdin,output:process.stdout});
-rl.question('Nome: ', n =&gt; { console.log(n); rl.close(); });</pre>`,
-    php: `<pre>$nome = readline("Nome: ");
-echo "Olá, $nome";</pre>`,
+    js: `No Node, use o módulo <code>readline</code>: o programa <b>pausa</b> e espera você digitar e dar Enter.
+<pre>const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+rl.question('Nome: ', nome =&gt; {
+  console.log('Olá, ' + nome);
+  rl.close();
+});</pre>
+Rode com <code>node app.js</code>.`,
+    php: `A função <code>readline()</code> lê uma linha digitada no terminal.
+<pre>$nome = readline("Nome: ");
+echo "Olá, $nome\n";</pre>
+Rode com <code>php app.php</code> (aguarda a digitação).`,
     go: `<pre>var nome string
 fmt.Print("Nome: ")
-fmt.Scanln(&amp;nome)</pre>`,
-    py: `<pre>nome = input("Nome: ")
-print(f"Olá, {nome}")</pre>`,
-    rust: `<pre>let mut nome = String::new();
+fmt.Scanln(&amp;nome)        // lê até o Enter
+fmt.Println("Olá,", nome)</pre>
+Rode com <code>go run main.go</code>.`,
+    py: `<pre>nome = input("Nome: ")   # pausa e lê uma linha
+print(f"Olá, {nome}")</pre>
+Rode com <code>python3 app.py</code>.`,
+    rust: `<pre>use std::io;
+let mut nome = String::new();
 println!("Nome: ");
-std::io::stdin().read_line(&amp;mut nome).unwrap();</pre>`,
+io::stdin().read_line(&amp;mut nome).unwrap();
+println!("Olá, {nome}");</pre>
+Rode com <code>cargo run</code>.`,
     c: `<pre>char nome[50];
 printf("Nome: ");
-scanf("%49s", nome);</pre>`,
-    cpp: `<pre>string nome;
+scanf("%49s", nome);       // lê até o 1º espaço
+printf("Olá, %s\n", nome);</pre>
+Compile com <code>gcc app.c -o app</code> e rode <code>./app</code>.`,
+    cpp: `<pre>#include &lt;iostream&gt;
+using namespace std;
+string nome;
 cout &lt;&lt; "Nome: ";
-cin &gt;&gt; nome;
-// ou getline(cin, nome);</pre>`,
+getline(cin, nome);        // lê a linha inteira
+cout &lt;&lt; "Olá, " &lt;&lt; nome;</pre>
+Compile com <code>g++ app.cpp -o app</code> e rode <code>./app</code>.`,
     cs: `<pre>Console.Write("Nome: ");
-string nome = Console.ReadLine();</pre>`,
-    java: `<pre>Scanner sc = new Scanner(System.in);
+string nome = Console.ReadLine(); // lê uma linha
+Console.WriteLine($"Olá, {nome}");</pre>
+Rode com <code>dotnet run</code>.`,
+    java: `<pre>import java.util.Scanner;
+Scanner sc = new Scanner(System.in);
 System.out.print("Nome: ");
-String nome = sc.nextLine();</pre>`
+String nome = sc.nextLine(); // lê uma linha
+System.out.println("Olá, " + nome);</pre>
+Compile com <code>javac App.java</code> e rode <code>java App</code>.`
   },
   {
     topic: "Cálculos",
     js: `<pre>let r = (5 + 3) * 2 / 4;
 let pot = Math.pow(2, 10);
-let raiz = Math.sqrt(16);</pre>`,
+let raiz = Math.sqrt(16);
+console.log(r, pot, raiz); // 4 1024 4</pre>
+No navegador: <b>F12</b> → Console. No Node: <code>node app.js</code>.`,
     php: `<pre>$r = (5 + 3) * 2 / 4;
 $pot = pow(2, 10);
-$raiz = sqrt(16);</pre>`,
-    go: `<pre>import "math"
-r := (5 + 3) * 2 / 4
-pot := math.Pow(2, 10)
-raiz := math.Sqrt(16)</pre>`,
+$raiz = sqrt(16);
+echo "$r $pot $raiz\n"; // 4 1024 4</pre>
+Rode com <code>php app.php</code>.`,
+    go: `<pre>package main
+
+import (
+  "fmt"
+  "math"
+)
+
+func main() {
+  r := (5 + 3) * 2 / 4
+  pot := math.Pow(2, 10)
+  raiz := math.Sqrt(16)
+  fmt.Println(r, pot, raiz) // 4 1024 4
+}</pre>
+Rode <code>go run main.go</code>.`,
     py: `<pre>r = (5 + 3) * 2 / 4
 pot = 2 ** 10
 raiz = 16 ** 0.5
-import math; math.sqrt(16)</pre>`,
-    rust: `<pre>let r = (5 + 3) * 2 / 4;
-let pot = 2_i32.pow(10);
-let raiz = 16_f64.sqrt();</pre>`,
-    c: `<pre>#include &lt;math.h&gt;
-int r = (5+3)*2/4;
-double p = pow(2,10);
-double s = sqrt(16);</pre>`,
-    cpp: `<pre>#include &lt;cmath&gt;
-int r = (5+3)*2/4;
-double p = std::pow(2,10);</pre>`,
+print(r, pot, raiz)  # 4.0 1024 4.0</pre>
+Rode <code>python3 app.py</code>.`,
+    rust: `<pre>fn main() {
+  let r = (5 + 3) * 2 / 4;
+  let pot = 2_i32.pow(10);
+  let raiz = 16_f64.sqrt();
+  println!("{} {} {}", r, pot, raiz); // 4 1024 4
+}</pre>
+Rode <code>cargo run</code>.`,
+    c: `<pre>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+int main() {
+  int r = (5+3)*2/4;
+  double p = pow(2,10);
+  double s = sqrt(16);
+  printf("%d %.0f %.0f\n", r, p, s); // 4 1024 4
+  return 0;
+}</pre>
+Compile: <code>gcc app.c -o app -lm</code> · rode <code>./app</code>.`,
+    cpp: `<pre>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+int main() {
+  int r = (5+3)*2/4;
+  double p = std::pow(2,10);
+  double s = std::sqrt(16);
+  std::cout &lt;&lt; r &lt;&lt; " " &lt;&lt; p &lt;&lt; " " &lt;&lt; s; // 4 1024 4
+  return 0;
+}</pre>
+Compile: <code>g++ app.cpp -o app</code> · rode <code>./app</code>.`,
     cs: `<pre>using System;
 int r = (5+3)*2/4;
 double p = Math.Pow(2,10);
-double s = Math.Sqrt(16);</pre>`,
+double s = Math.Sqrt(16);
+Console.WriteLine($"{r} {p} {s}"); // 4 1024 4</pre>
+Rode <code>dotnet run</code>.`,
     java: `<pre>int r = (5+3)*2/4;
 double p = Math.pow(2,10);
-double s = Math.sqrt(16);</pre>`
+double s = Math.sqrt(16);
+System.out.println(r + " " + p + " " + s); // 4 1024.0 4.0</pre>
+Compile: <code>javac App.java</code> · rode <code>java App</code>.`
   },
   {
     topic: "Strings",

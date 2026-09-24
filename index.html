@@ -146,6 +146,21 @@
     font-size: 15px;
     font-weight: bold;
   }
+  .lang-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 8px;
+    border-radius: 8px;
+  }
+  .lang-link:hover { background: rgba(255,255,255,0.08); text-decoration: none; }
+  .lang-logo {
+    width: 28px;
+    height: 28px;
+    padding: 3px;
+    background: #f4f4f8;          /* fundo claro: o logo do Rust é preto */
+    border-radius: 6px;
+  }
   .lang-js { color: #f7df1e; }
   .lang-php { color: #b4bcf0; }
   .lang-go { color: #3fd0f5; }
@@ -206,15 +221,15 @@
     <thead>
       <tr>
         <th class="topic">Tópico</th>
-        <th><span class="lang-header lang-js">JavaScript</span></th>
-        <th><span class="lang-header lang-php">PHP</span></th>
-        <th><span class="lang-header lang-go">Golang</span></th>
-        <th><span class="lang-header lang-py">Python</span></th>
-        <th><span class="lang-header lang-rust">Rust</span></th>
-        <th><span class="lang-header lang-c">C</span></th>
-        <th><span class="lang-header lang-cpp">C++</span></th>
-        <th><span class="lang-header lang-cs">C#</span></th>
-        <th><span class="lang-header lang-java">Java</span></th>
+        <th><a class="lang-link" href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript" target="_blank" rel="noopener" title="Documentação de referência (MDN) — abre em nova aba"><img class="lang-logo" src="logos/javascript.svg" alt="" width="28" height="28"><span class="lang-header lang-js">JavaScript</span></a></th>
+        <th><a class="lang-link" href="https://www.php.net" target="_blank" rel="noopener" title="Site oficial — abre em nova aba"><img class="lang-logo" src="logos/php.svg" alt="" width="28" height="28"><span class="lang-header lang-php">PHP</span></a></th>
+        <th><a class="lang-link" href="https://go.dev" target="_blank" rel="noopener" title="Site oficial — abre em nova aba"><img class="lang-logo" src="logos/go.svg" alt="" width="28" height="28"><span class="lang-header lang-go">Golang</span></a></th>
+        <th><a class="lang-link" href="https://www.python.org" target="_blank" rel="noopener" title="Site oficial — abre em nova aba"><img class="lang-logo" src="logos/python.svg" alt="" width="28" height="28"><span class="lang-header lang-py">Python</span></a></th>
+        <th><a class="lang-link" href="https://www.rust-lang.org/pt-BR" target="_blank" rel="noopener" title="Site oficial — abre em nova aba"><img class="lang-logo" src="logos/rust.svg" alt="" width="28" height="28"><span class="lang-header lang-rust">Rust</span></a></th>
+        <th><a class="lang-link" href="https://www.open-std.org/jtc1/sc22/wg14/" target="_blank" rel="noopener" title="Comitê oficial da norma ISO C (WG14) — abre em nova aba"><img class="lang-logo" src="logos/c.svg" alt="" width="28" height="28"><span class="lang-header lang-c">C</span></a></th>
+        <th><a class="lang-link" href="https://isocpp.org" target="_blank" rel="noopener" title="Site oficial (Standard C++ Foundation) — abre em nova aba"><img class="lang-logo" src="logos/cplusplus.svg" alt="" width="28" height="28"><span class="lang-header lang-cpp">C++</span></a></th>
+        <th><a class="lang-link" href="https://learn.microsoft.com/pt-br/dotnet/csharp/" target="_blank" rel="noopener" title="Documentação oficial (Microsoft) — abre em nova aba"><img class="lang-logo" src="logos/csharp.svg" alt="" width="28" height="28"><span class="lang-header lang-cs">C#</span></a></th>
+        <th><a class="lang-link" href="https://dev.java" target="_blank" rel="noopener" title="Site oficial (Oracle) — abre em nova aba"><img class="lang-logo" src="logos/java.svg" alt="" width="28" height="28"><span class="lang-header lang-java">Java</span></a></th>
       </tr>
     </thead>
     <tbody id="tableBody"></tbody>

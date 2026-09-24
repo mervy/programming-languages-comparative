@@ -15,6 +15,7 @@ controle, manipulação de strings, acesso a bancos de dados e casos de uso.
 - ▶️ **Como rodar** em cada exemplo (comando do terminal, bibliotecas e flags necessárias)
 - 🖥️ **Saída real** logo abaixo do código, mostrando o que aparece no terminal
 - 📋 Botão **copiar** em cada bloco de código
+- 🏷️ Logo de cada linguagem no cabeçalho, com link para o site oficial (abre em nova aba)
 - 🔎 Busca por palavra-chave (ex.: `loop`, `string`, `postgres`)
 - 🗂️ Filtro por tópico
 - 📊 Tabela com cabeçalho e coluna de tópicos fixos (rolagem horizontal e vertical)
@@ -83,6 +84,7 @@ https://mervy.github.io/programming-languages-comparative/
 ```
 programming-languages-comparative/
 ├── index.html   # Página da tabela comparativa (GitHub Pages)
+├── logos/       # Logos SVG das linguagens (Devicon, licença MIT)
 └── README.md
 ```
 
@@ -90,3 +92,5 @@ programming-languages-comparative/
 
 Projeto educacional para estudo e revisão de linguagens de programação.
 Atualizado em 2026.
+
+Logos das linguagens: [Devicon](https://devicon.dev) (licença MIT). As marcas pertencem aos respectivos donos.
